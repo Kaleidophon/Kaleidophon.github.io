@@ -1,6 +1,8 @@
 ---
 layout: page
-title: About this website
+title: About me
 ---
 
-I'm not sure yet what this website is about, but I'm sure I'll work it out soon.
+![image](../img/MG_0285.jpg)
+
+My name is Dennis Ulmer and I am currently a PhD student under Natalie Schluter at the IT University Copenhagen.

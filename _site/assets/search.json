@@ -5,20 +5,20 @@
   
     
     
-      {
-        "title": "Hello World",
-        "excerpt": "This is my very first blog post. I haven’t written anything yet but I’m sure I have some great stories to tell.\n",
-        "content": "This is my very first blog post. I haven’t written anything yet but I’m sure I have some great stories to tell.\n",
-        "url": "/general/2018/08/22/hello-world/"
-      },
-    
   
   
   
   {
-    "title": "About this website",
+    "title": "Hello World",
     "excerpt": "\n",
-    "content": "I’m not sure yet what this website is about, but I’m sure I’ll work it out soon.\n",
+    "content": "This is my very first blog post. I haven’t written anything yet but I’m sure I have some great stories to tell.\n",
+    "url": "/post_template/2018-08-22-hello-world/"
+  },
+  
+  {
+    "title": "About me",
+    "excerpt": "\n",
+    "content": "\n\nMy name is Dennis Ulmer and I am currently a PhD student under Natalie Schluter at the IT University Copenhagen.\n",
     "url": "/about/"
   },
   
@@ -41,6 +41,13 @@
     "excerpt": "\n",
     "content": "There isn’t much going on here yet, but watch this space\n",
     "url": "/"
+  },
+  
+  {
+    "title": "Publications",
+    "excerpt": "\n",
+    "content": "Bla\n",
+    "url": "/publications/"
   }
   
 ]

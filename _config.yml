@@ -21,12 +21,12 @@ plugins:
 - jekyll-remote-theme
 
 # Site settings
-url: 'https://mydomain.com'
+url: 'https://kaleidophon.github.io'
 baseurl: ''
-title: 'My website'
-description: 'This is my new website'
+title: 'Dennis Ulmer'
+description: 'Dennis Ulmer'
 permalink: pretty
-logo: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52"
+#logo: "https://i.imgur.com/OylVkOR.png"
 
 # Pagination
 paginate: 5
@@ -38,6 +38,8 @@ navigation_header:
   url: /
 - title: About
   url: /about/
+- title: Publications
+  url: /publications/
 - title: Blog
   url: /blog/
 
@@ -52,6 +54,5 @@ collections:
     title: Posts
     output: true
     description: "My thoughts and ideas"
-    feature_text: |
-      Welcome to my blog
-    feature_image: "https://picsum.photos/2560/600?image=866"
+    feature_text:
+    feature_image: "../img/DSCF8601.jpg"
