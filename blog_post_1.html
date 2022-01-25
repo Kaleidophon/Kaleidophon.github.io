@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Dennis Ulmer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="#" class="image avatar"><img src="images/avatar.jpg" alt="" /></a>
+					<!--
+					<h1><strong>I am Dennis Ulmer, PhD student<br />
+					at the <a href="https://en.itu.dk/">IT University Copenhagen</a>.<br />
+					</strong></h1>
+					-->
+					<p style="color:white">Working with &#x1F916;&#x1F4AD;</p>
+					<ul class="icons">
+						<li><a href="https://twitter.com/dnnslmr" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="https://github.com/Kaleidophon" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/dennis-ulmer-604b86128/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="https://scholar.google.com/citations?user=rn9WoaEAAAAJ" class="icon brands fa-google"><span class="label">Google Scholar</span></a></li>
+						<li><a href="mailto: dennis DOT ulmer AT mailbox DOT org" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+				<section id="one">
+
+					<header class="major">
+						<center>
+						<h2>How Robust Are Transformers? Insights from three EMNLP 2021 Papers </h2>
+						<h3>25.01.22</h3>
+						</center>
+						<table>
+						<tbody>
+						<tr class="odd">
+						<td style="text-align: right;"><img src="./blog_assets/blog_post_1/robust1.png" title="fig:" style="width:51.0%" alt="The importance of robustness: A robot during a DARPA challenge tries to (unsucessfully) tread on an unfamiliar surface. From YouTube." /></td>
+						<td style="text-align: left;"><img src="./blog_assets/blog_post_1/robust2.png" title="fig:" style="width:44.0%" alt="The importance of robustness: A robot during a DARPA challenge tries to (unsucessfully) tread on an unfamiliar surface. From YouTube." /></td>
+						</tr>
+						</tbody>
+						</table>
+
+						<h4 id="section"></h4>
+
+						<p>Since their inception in 2017 by <span class="citation" data-cites="vaswani2017attention"></span>, transformers have taken NLP (and recently also Computer Vision <span class="citation" data-cites="khan2021transformers"></span>, and potentially soon Reinforcement Learning? <span class="citation" data-cites="tang2021sensory"></span>, <span class="citation" data-cites="tang2021sensory"></span>) by storm. On most benchmarks, they now outperform all RNN-based rivals by a large margin. Finetuning large transformer-based language models has become the de-facto standard for many NLP applications.</p>
+						<h4 id="section-1"></h4>
+						<p>Nevertheless, the increase of the number of learnable parameters to hundreds of millions or even billions has not exactly made it easier to understand what is going on inside of these models. Therefore, there have been many attempts to develop techniques to understand what kind of knowledge is represented in transformers, for instance by probing for linguistic properties <span class="citation" data-cites="hupkes2018visualisation conneau2018what voita2020information hewitt2019structural"></span>. In this post, I want to take a look at another approach to this problem: By changing the input to the model in different ways, we can check if the model still behaves in the desired way and potentially uncover unexpected phenomena and failure modes. I do this based on three papers at this year’s EMNLP conference, that add misspellings and other modifications to words, swap the word order around or add entirely new kinds of text that are unfamiliar to the model.</p>
+						<b> But Why?</b><p> One could ask why we even want to undertake such research – the models are performing well on our datasets, so why bother? There are several arguments for it: One is from the interpretability perspective – understanding what kind of features the model learns about the data, and if those align with what we want them to learn. The second one is from a linguistic or neuroscientific perspective: Do transformers display signs of human-like language processing? Are linguistic structures represented in transformers somehow? Lastly, the robustness and safety perspective: If we want to deploy Deep Learning models in situations where they could potentially create harm - be it recommending treatments for doctors and nurses, evaluating loan applications, and so forth - we want to make sure that small changes to an input that would not make a difference to human potentially flip the prediction of the model. Unfortunately, this can be a real problem, as the first paper will show.</p>
+						<h2 class="unnumbered" id="how-many-heartts-does-an-octopus-have"><center>How many heartts does an octopus have?</center></h2>
+						<h4 id="section-2"></h4>
+						<p>I bet yuo cna read thsi senntence. Or this this one. But is a transformer able to? This is exactly what <span class="citation" data-cites="moradi2021evaluating"></span> ventured out to test in their paper: Starting from character-level manipulations such as adding, deleting or swapping characters to repeating, swapping or doing the same with whole words, their palette of perturbations spanning many different operations. Especially interesting are also the ones about replacing words with synonyms, changing the verb tense or adding a negation to a sentence (in which case the corresponding label was changed appropriately). The experiments also feature a number of different tasks, such text or sentiment classification and question answering.</p>
+						<h4 id="section-3"></h4>
+						<p>As you probably noticed in the beginning of this section, humans are quite robust to these changes - something that I notice every time I miss typos in a paper draft. The same unfortunately cannot be said about transformer models: Using a test bed of five different tasks and four different models (three of which are transformer-based), they find that adding these changes to the input can affect the performance of a model by ten, sometimes even twenty or more performance points! The authors try to explain some results by considering model architecture or training procedure: The LSTM-based ELMo <span class="citation" data-cites="peters2018deep"></span> is character-based, and therefore quite robust to character-based changes. This can be corroborated with earlier studies on character-level LSTMs and noisy inputs by <span class="citation" data-cites="heigold2018how"></span>, showing how such failure modes might also be pathological to the usage of subword units. XLNet <span class="citation" data-cites="yang2019xlnet"></span> is trained using an objective permuting the order of words, and thus wards off such challenges better. XLNet and BERT <span class="citation" data-cites="devlin2019bert"></span> are trained on larger corpora, therefore handle synonym substitutions fairly well. Among all the results, I personally found the one using common misspellings of words the most surprising, as it seemed to have a more detrimental effect than modifying characters randomly. But even with all of these modifications, there are other ways to push transformers to their limits. So why don’t we try to just shuffle all words in a sentence and see how far we can get?</p>
+
+						<h2 class="unnumbered" id="order-word-matters-for-pre-training-little"><center>Order word matters for pre-training little</center></h2>
+						<h4 id="section-4"></h4>
+						<p><span class="citation" data-cites="moradi2021evaluating"></span> had already considered changing the word order for their experiments, but <span class="citation" data-cites="sinha2021masked"></span> explore this scenario in more detail. They exploit different degrees of randomization, from resampling corpora with similar co-occurrence statistics as the original ones or shuffling <span class="math inline"><em>n</em></span>-grams in sentences. They train RoBERTa models <span class="citation" data-cites="liu2019roberta"></span> on the randomized data, and then finetune on established datasets such as GLUE <span class="citation" data-cites="wang2019glue"></span> or the paraphrase detection task PAWS <span class="citation" data-cites="zhang2019paws"></span>. Surprisingly, the word order does not matter for some of the tested tasks, such as some natural language understanding or natural language inference tasks – where word order should actually matter quite a lot! However, this trend doesn’t – phew! – hold for all of the tested datasets. Using shuffled <span class="math inline"><em>n</em></span>-grams also leads to less detrimental drops in performance, as one might expected, since at least some local ordering is preserved.</p>
+						<h4 id="section-5"></h4>
+						<p>The additional results stemming from probing for syntactic properties like Part-of-Speech and dependency parse information are also counter-intuitive: In many cases, probes reach decent accuracy, although the word order of input sentences is shuffled. The authors conclude that – while useful for many NLP tasks – transformers might succeed on many benchmarks by simply learning distributional information about the input. In these cases, the transformer becomes a very, very powerful bag-of-words model. <span class="citation" data-cites="sinha2021masked"></span> argue that there could potentially be a way for transformer to infer the most likely word order even from shuffled inputs – but the most likely word order won’t always be the one that matters!</p>
+						<h4 id="section-6"></h4>
+						<p>This paper shows once more how differences in the training and test distribution of a model matter and can have surprising results. Distributional shift the two between is one possible reason for such a mismatch, and the main topic of the last paper.</p>
+
+						<h2 class="unnumbered" id="that-doesnt-look-like-anything-to-me"><center>That doesn’t look like anything to me</center></h2>
+						<figure>
+						<center>
+						<img src="./blog_assets/blog_post_1/arnold.png" style="width:65.0%" alt="In the TV show Westworld, androids are stumped by anything that does not fit their programming – for instance any kind of evidence that they are not human." /><figcaption aria-hidden="true">In the TV show <em>Westworld</em>, androids are stumped by anything that does not fit their programming – for instance any kind of evidence that they are not human.</figcaption>
+						</center>
+						</figure>
+						<h4 id="section-7"></h4>
+						<p>Distributional shifts are ubiquitous in Machine Learning applications – hospital populations change, newspapers report on new topics, consumer behavior changes with trends. Suddenly, we might be faced with a new data point the model has never seen before, and for which it potentially produce bad predictions. These inputs are usually called <em>out-of-distribution</em> (OOD). Can we catch them before disaster strikes?</p>
+						<h4 id="section-8"></h4>
+						<p>This is the exactly the question that <span class="citation" data-cites="arora2021types"></span> try to answer. There is a manifold of definitions of shift in the literature <span class="citation" data-cites="moreno2012unifying"></span>, though the authors define two: The shift of features that correlated with the label (<em>semantic</em> shift) and those that don’t (<em>background</em> shift). Imagine a training set consisting of pictures of labradors and poodles in parks. When we show the models pictures of these breeds at home, the environment has changed, but that should not influence the prediction of the model. However, if we test the model on labradoodles, we suddenly encounter a semantic shift, and the predictions might be uncertain about how to classify this canine.</p>
+						<h4 id="section-9"></h4>
+						<p>Using a neural discriminator (RoBERTa; <span class="citation" data-cites="liu2019roberta"></span>, <span class="citation" data-cites="liu2019roberta"></span>) and a density estimator (GPT-2; <span class="citation" data-cites="radford2019language"></span>, <span class="citation" data-cites="radford2019language"></span>), they check how models react to the mentioned shifts. They find that semantic shift is best detected by discriminators, and background shift is caught most effectively using density estimators. This makes sense, since for instance discriminators focus on features that are predictive of the task label. Nevertheless, <span class="citation" data-cites="arora2021types"></span> note that this also makes them vulnerable to spurious correlations. They further identify smaller shifts or repetitive phrases (like repeated <em>and true is true</em>, skewing the likelihood of a phrase) as unsolved challenges for OOD detection in text. Also, note that this work was concerned with detection OOD <em>sentences</em>, while e.g. OOD <em>words</em> like such produced by <span class="citation" data-cites="moradi2021evaluating"></span> were not considered.</p>
+
+						<h2 class="unnumbered" id="conclusion"><center>Conclusion</center></h2>
+						<figure>
+						<center>
+						<img src="./blog_assets/blog_post_1/clever_bert.jpg" style="width:70.0%" alt="BERT as a modern Clever Hans. Taken from The Gradient." /><figcaption aria-hidden="true">BERT as a modern <em>Clever Hans</em>. Taken from <a href="https://thegradient.pub/nlps-clever-hans-moment-has-arrived/">The Gradient</a>.</figcaption>
+						</center>
+						</figure>
+						<h4 id="section-10"></h4>
+						<p>In this post, I briefly discussed different kinds and levels of modifications of the input data to transformers - from adding and deleting characters, swapping words and <span class="math inline"><em>n</em></span>-grams, to confronting models with text from other data distributions. What is the takeaway from all of these papers?</p>
+						<h4 id="section-11"></h4>
+						<p>Transformers have a comparatively weak inductive bias for language, for example when compared to RNNs: If it wasn’t for positional encodings, they would be completely invariant to word order. And as neural networks in general, they tend to fit the most predictive features in the input - and produce brittle predictions in cases where human cognition acts very robustly (for instance on the famous adversarial examples). The fact that neural networks, despite the superficial inspiration from the human brain, process information very differently from humans, is already well-known <span class="citation" data-cites="lake2017building van2018modeling abnar2019blackbox"></span>, but is underlined by these results. However, <span class="citation" data-cites="moradi2021evaluating"></span> note: “our results seem to suggest that [...] we may not need human-like linguistic abilities for most NLP tasks”. And why that is most certainly true, there is a plethora of tasks for which this does not hold, such as natural language inference and paraphrase detection discussed in <span class="citation" data-cites="sinha2021masked"></span>, which often require challenging inferences and world knowledge. Claiming that a model might posses certain capabilities based on the performance on some test set alone might thus be misleading at best, and have unintended, perhaps even dire consequences at worst in applications with end users unaware of such flaws.</p>
+						<h4 id="section-12"></h4>
+						<p>The consequences from this are two-fold: More research on the robustness of neural network is necessary (and is in fact already an active area of research). Furthermore, as <span class="citation" data-cites="moradi2021evaluating"></span> also mention, such results motivate more challenging benchmarks or “unit tests” such as CheckList <span class="citation" data-cites="ribeiro2020beyond"></span>. Otherwise, transformers specifically and NLP in general might remain at the <em>Clever Hans</em> stage: The eponymous horse, living in Germany around the end of the 19th century, was famous for being able to solve arithmetic problems. First hailed for its impressive mathematical abilities, an investigation later found the true reason: When tapping its hoof to spell out its answer, the audience would change their facial expressions and body language in anticipation right before the correct response, which the steed was able to pick up on. It relied on a spurious correlation.</p>
+						<h4 id="tldr">tl;dr:</h4>
+						<ul>
+						<li>Transformers are sensitive to perturbation of input words and characters, but for some tasks <em>insensitive</em> to a change in word order, implying they don’t learn about syntax but distributional information in the data.</li>
+						<li>Different types of distributional shift require different architectures to detect them.</li>
+						<li>Future works involves developing more challenging benchmarks and more robust architectures.</li>
+						</ul>
+
+						<p><b><a href="./index.html"><font size="+3">&#8592; Back</font></a></b></p>
+
+						<h2 class="unnumbered" id="references"><center>References</center></h2>
+						<ul>
+							<li> Samira Abnar, Lisa Beinborn, Rochelle Choenni, and Willem H. Zuidema. Blackbox meets blackbox: Representational similarity &amp; stability analysis of neural language models and brains. In Tal Linzen, Grzegorz Chrupala, Yonatan Belinkov, and Dieuwke Hupkes, editors, Proceedings of the 2019
+							ACL Workshop BlackboxNLP: Analyzing and Interpreting Neural Networks
+							for NLP, BlackboxNLP@ACL 2019, Florence, Italy, August 1, 2019, pages
+							191–203. Association for Computational Linguistics, 2019. </li>
+
+							<li>Udit Arora, William Huang, and He He. Types of out-of-distribution texts
+							and how to detect them. In Marie-Francine Moens, Xuanjing Huang, Lucia
+							Specia, and Scott Wen-tau Yih, editors, Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing, EMNLP 2021,
+						Virtual Event / Punta Cana, Dominican Republic, 7-11 November, 2021,
+							pages 10687–10701. Association for Computational Linguistics, 2021.</li>
+
+							<li>Alexis Conneau, German Kruszewski, Guillaume Lample, Lo¨ıc Barrault, and
+							Marco Baroni. What you can cram into a single \$&amp;!#* vector: Probing sentence embeddings for linguistic properties. In Iryna Gurevych and
+							Yusuke Miyao, editors, Proceedings of the 56th Annual Meeting of the As-
+							sociation for Computational Linguistics, ACL 2018, Melbourne, Australia,
+							July 15-20, 2018, Volume 1: Long Papers, pages 2126–2136. Association
+							for Computational Linguistics, 2018.</li>
+
+							<li>Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT:
+							pre-training of deep bidirectional transformers for language understanding.
+							In Jill Burstein, Christy Doran, and Thamar Solorio, editors, Proceedings
+							of the 2019 Conference of the North American Chapter of the Association
+							for Computational Linguistics: Human Language Technologies, NAACL-
+							HLT 2019, Minneapolis, MN, USA, June 2-7, 2019, Volume 1 (Long and
+							Short Papers), pages 4171–4186. Association for Computational Linguistics, 2019.</li>
+
+							<li>Georg Heigold, Stalin Varanasi, Gunter Neumann, and Josef van Genabith.
+							How robust are character-based word embeddings in tagging and MT
+							against wrod scramlbing or randdm nouse?
+							In Colin Cherry and Graham Neubig, editors, Proceedings of the 13th Conference of the Association for Machine Translation in the Americas, AMTA 2018, Boston,
+							MA, USA, March 17-21, 2018 - Volume 1: Research Papers, pages 68–
+							80. Association for Machine Translation in the Americas, 2018.</li>
+
+							<li>John Hewitt and Christopher D. Manning. A structural probe for finding syn-
+							tax in word representations. In Jill Burstein, Christy Doran, and Thamar
+							Solorio, editors, Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human
+							Language Technologies, NAACL-HLT 2019, Minneapolis, MN, USA, June
+							2-7, 2019, Volume 1 (Long and Short Papers), pages 4129–4138. Association for Computational Linguistics, 2019.</li>
+
+							<li>Dieuwke Hupkes, Sara Veldhoen, and Willem H. Zuidema. Visualisation and
+							’diagnostic classifiers’ reveal how recurrent and recursive neural networks
+							process hierarchical structure. J. Artif. Intell. Res., 61:907–926, 2018. </li>
+
+							<li>Salman Khan, Muzammal Naseer, Munawar Hayat, Syed Waqas Zamir, Fahad Shahbaz Khan, and Mubarak Shah. Transformers in vision: A survey.
+							ArXiv preprint arXiv:2101.01169, 2021.</li>
+
+							<li>Brenden M Lake, Tomer D Ullman, Joshua B Tenenbaum, and Samuel J
+							Gershman. Building machines that learn and think like people. Behavioral
+							and brain sciences, 40, 2017.</li>
+
+							<li>Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi
+							Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, and Veselin Stoyanov.
+							Roberta: A robustly optimized bert pretraining approach. arXiv preprint
+							arXiv:1907.11692, 2019.</li>
+
+							<li>Milad Moradi and Matthias Samwald. Evaluating the robustness of neural
+							language models to input perturbations. In Marie-Francine Moens, Xu-
+							anjing Huang, Lucia Specia, and Scott Wen-tau Yih, editors, Proceedings
+							of the 2021 Conference on Empirical Methods in Natural Language Pro-
+							cessing, EMNLP 2021, Virtual Event / Punta Cana, Dominican Republic,
+							7-11 November, 2021, pages 1558–1570. Association for Computational
+							Linguistics, 2021.</li>
+
+							<li>Jose G Moreno-Torres, Troy Raeder, Roc´ıo Alaiz-Rodr´ıguez, Nitesh V
+							Chawla, and Francisco Herrera. A unifying view on dataset shift in classi-
+							fication. Pattern recognition, 45(1):521–530, 2012.</li>
+
+							<li>Matthew E. Peters, Mark Neumann, Mohit Iyyer, Matt Gardner, Christopher
+							Clark, Kenton Lee, and Luke Zettlemoyer. Deep contextualized word rep-
+							resentations. In Marilyn A. Walker, Heng Ji, and Amanda Stent, editors,
+							Proceedings of the 2018 Conference of the North American Chapter of the
+							Association for Computational Linguistics: Human Language Technolo-
+							gies, NAACL-HLT 2018, New Orleans, Louisiana, USA, June 1-6, 2018,
+							Volume 1 (Long Papers), pages 2227–2237. Association for Computational
+							Linguistics, 2018.</li>
+
+							<li>Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya
+							Sutskever, et al. Language models are unsupervised multitask learners.
+							OpenAI blog, 1(8):9, 2019.</li>
+
+							<li>Marco Tulio Ribeiro, Tongshuang Wu, Carlos Guestrin, and Sameer Singh.
+							Beyond accuracy: Behavioral testing of NLP models with checklist. In Dan Jurafsky, Joyce Chai, Natalie Schluter, and Joel R. Tetreault, editors, Proceedings of the 58th Annual Meeting of the Association for Computational
+							Linguistics, ACL 2020, Online, July 5-10, 2020, pages 4902–4912. Association for Computational Linguistics, 2020.</li>
+
+							<li>Koustuv Sinha, Robin Jia, Dieuwke Hupkes, Joelle Pineau, Adina Williams,
+							and Douwe Kiela. Masked language modeling and the distributional hypothesis: Order word matters pre-training for little. In Marie-Francine
+							Moens, Xuanjing Huang, Lucia Specia, and Scott Wen-tau Yih, editors,
+							Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing, EMNLP 2021, Virtual Event / Punta Cana, Dominican
+							Republic, 7-11 November, 2021, pages 2888–2913. Association for Computational Linguistics, 2021.</li>
+
+							<li>Yujin Tang and David Ha.
+							The sensory neuron as a transformer:
+							Permutation-invariant neural networks for reinforcement learning.
+							In Thirty-Fifth Conference on Neural Information Processing Systems, 2021.</li>
+
+							<li>Marten Van Schijndel and Tal Linzen. Modeling garden path effects without
+							explicit hierarchical syntax. In CogSci, 2018.</li>
+
+							<li>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+							Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin.
+							Attention is
+							all you need.
+							In Isabelle Guyon, Ulrike von Luxburg, Samy Bengio, Hanna M. Wallach, Rob Fergus, S. V. N. Vishwanathan, and Ro-
+							man Garnett, editors, Advances in Neural Information Processing Systems 30:
+							Annual Conference on Neural Information Processing Systems 2017, December 4-9, 2017, Long Beach, CA, USA, pages 5998–
+							6008, 2017.</li>
+
+							<li>Elena Voita and Ivan Titov. Information-theoretic probing with minimum
+							description length. In Bonnie Webber, Trevor Cohn, Yulan He, and Yang
+							Liu, editors, Proceedings of the 2020 Conference on Empirical Methods
+							in Natural Language Processing, EMNLP 2020, Online, November 16-20,
+							2020, pages 183–196. Association for Computational Linguistics, 2020.</li>
+
+							<li>Alex Wang, Amanpreet Singh, Julian Michael, Felix Hill, Omer Levy, and
+							Samuel R. Bowman. GLUE: A multi-task benchmark and analysis platform
+							for natural language understanding. In 7th International Conference on
+							Learning Representations, ICLR 2019, New Orleans, LA, USA, May 6-9,
+							2019. OpenReview.net, 2019.</li>
+
+							<li>Zhilin Yang, Zihang Dai, Yiming Yang, Jaime Carbonell, Russ R Salakhutdinov, and Quoc V Le. Xlnet: Generalized autoregressive pretraining for
+							language understanding. Advances in neural information processing systems, 32, 2019.</li>
+
+							<li>Yuan Zhang, Jason Baldridge, and Luheng He. PAWS: paraphrase adversaries from word scrambling. In Jill Burstein, Christy Doran, and Thamar
+							Solorio, editors, Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human
+							Language Technologies, NAACL-HLT 2019, Minneapolis, MN, USA, June
+							2-7, 2019, Volume 1 (Long and Short Papers), pages 1298–1308. Association for Computational Linguistics, 2019. </li>
+						</ul>
+
+					</header>
+
+				</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="copyright">
+						<li>&copy; Dennis Ulmer</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
