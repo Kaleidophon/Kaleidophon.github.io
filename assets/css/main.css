@@ -3249,7 +3249,7 @@ input, select, textarea {
 		line-height: 1;
 	}
 
-	.nav-social a:nth-child(1) i { font-size: 1.0em; }   /* Bluesky */
+	.nav-social a:nth-child(1) i { font-size: 1.0em; transform: translateX(0.6em); }   /* Bluesky */
 	.nav-social a:nth-child(2) i { font-size: 1.35em; }  /* GitHub */
 	.nav-social a:nth-child(3) i { font-size: 1.35em; }  /* LinkedIn */
 	.nav-social a:nth-child(4) i { font-size: 1.3em; }   /* Google Scholar */
@@ -3265,6 +3265,68 @@ input, select, textarea {
 		border-top: 0;
 		margin-top: 0;
 		padding-top: 0;
+	}
+
+	/* Blog entry cards */
+
+	.blog-entries {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75em;
+		margin-top: 0.5em;
+	}
+
+	a.blog-card {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 1.1em;
+		padding: 0.9em 1.25em;
+		border: 0;
+		border-left: 3px solid #49bf9d;
+		background: #f9f9f9;
+		border-radius: 0 4px 4px 0;
+		text-decoration: none;
+		transition: background 0.2s ease, border-left-color 0.2s ease;
+	}
+
+	a.blog-card:hover {
+		background: #f0faf7;
+		border-left-color: #3aad8a;
+	}
+
+	.blog-card-cover {
+		width: 90px;
+		height: 62px;
+		object-fit: cover;
+		border-radius: 3px;
+		flex-shrink: 0;
+	}
+
+	.blog-card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2em;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.blog-card-title {
+		color: #3d3d3d;
+		font-size: 0.95em;
+		font-weight: 600;
+		line-height: 1.4;
+		transition: color 0.2s ease;
+	}
+
+	a.blog-card:hover .blog-card-title {
+		color: #49bf9d;
+	}
+
+	.blog-card-date {
+		color: #aaa;
+		font-size: 0.75em;
+		letter-spacing: 0.05em;
 	}
 
 	@media screen and (max-width: 1280px) {
