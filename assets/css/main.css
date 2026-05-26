@@ -3183,6 +3183,112 @@ input, select, textarea {
 
 /* XSmall */
 
+/* Site Nav */
+
+	#site-nav {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		gap: 2em;
+		background: #fff;
+		border-bottom: solid 1px #efefef;
+		margin: -8em -4em 3em -4em;
+		padding: 0.85em 4em;
+	}
+
+	#site-nav a {
+		border: 0;
+		color: #aaa;
+		font-size: 0.75em;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition: color 0.2s ease;
+	}
+
+	#site-nav a:hover {
+		color: #49bf9d;
+	}
+
+	#site-nav a:first-child {
+		font-size: 1em;
+		margin-right: 0.5em;
+	}
+
+	.nav-social {
+		display: flex;
+		align-items: center;
+		gap: 0.25em;
+		margin-left: auto;
+		line-height: 1;
+	}
+
+	.nav-social a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75em;
+		height: 1.75em;
+		color: #aaa;
+		font-size: 1em;
+		letter-spacing: 0;
+		text-transform: none;
+		border: 0;
+		transition: color 0.2s ease;
+	}
+
+	.nav-social a:hover {
+		color: #49bf9d;
+	}
+
+	.nav-social a i {
+		display: block;
+		line-height: 1;
+	}
+
+	.nav-social a:nth-child(1) i { font-size: 1.0em; }   /* Bluesky */
+	.nav-social a:nth-child(2) i { font-size: 1.35em; }  /* GitHub */
+	.nav-social a:nth-child(3) i { font-size: 1.35em; }  /* LinkedIn */
+	.nav-social a:nth-child(4) i { font-size: 1.3em; }   /* Google Scholar */
+	.nav-social a:nth-child(5) i { font-size: 1.4em; }   /* Envelope */
+
+	.nav-iid svg {
+		display: block;
+		height: 1.3em;
+		width: auto;
+	}
+
+	#main > #one {
+		border-top: 0;
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+	@media screen and (max-width: 1280px) {
+		#site-nav {
+			margin: -6em -3em 2.5em -3em;
+			padding: 0.85em 3em;
+		}
+	}
+
+	@media screen and (max-width: 980px) {
+		#site-nav {
+			margin: -6em -4em 2.5em -4em;
+			padding: 0.85em 4em;
+		}
+	}
+
+	@media screen and (max-width: 736px) {
+		#site-nav {
+			margin: -2.25em -1.5em 1.5em -1.5em;
+			padding: 0.7em 1.5em;
+			gap: 1.25em;
+		}
+	}
+
 	@media screen and (max-width: 480px) {
 
 		/* Header */
