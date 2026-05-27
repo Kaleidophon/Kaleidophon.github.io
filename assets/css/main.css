@@ -3270,6 +3270,18 @@ input, select, textarea {
 
 	/* Blog entry cards */
 
+	/* Header text alignment */
+
+	#header .inner p {
+		text-align: right;
+	}
+
+	@media screen and (max-width: 980px) {
+		#header .inner p {
+			text-align: center;
+		}
+	}
+
 	.blog-entries {
 		display: flex;
 		flex-direction: column;
@@ -3440,6 +3452,7 @@ input, select, textarea {
 		#site-nav {
 			flex-wrap: wrap;
 			gap: 0.5em 0.75em;
+			justify-content: space-evenly;
 		}
 		.nav-social {
 			margin-left: 0;
@@ -3447,6 +3460,7 @@ input, select, textarea {
 			border-top: solid 1px #f5f5f5;
 			padding-top: 0.5em;
 			gap: 0.5em;
+			justify-content: center;
 		}
 	}
 
