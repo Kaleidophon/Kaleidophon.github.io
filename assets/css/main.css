@@ -3261,7 +3261,8 @@ input, select, textarea {
 		width: auto;
 	}
 
-	#main > #one {
+	#main > #one,
+	#site-nav + section {
 		border-top: 0;
 		margin-top: 0;
 		padding-top: 0;
@@ -3373,4 +3374,63 @@ input, select, textarea {
 				padding-left: 0;
 			}
 
+	}
+
+	/* Link grid cards */
+
+	.link-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.75em;
+		margin-bottom: 2.25em;
+	}
+
+	a.link-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.4em;
+		padding: 1.4em 1em 1.2em;
+		border: 0;
+		background: #f9f9f9;
+		border-radius: 8px;
+		text-decoration: none;
+		transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+	}
+
+	a.link-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 5px 16px rgba(0,0,0,0.08);
+		background: #f0faf7;
+	}
+
+	.link-card-icon {
+		font-size: 1.6em;
+		line-height: 1.2;
+		color: #49bf9d;
+	}
+
+	.link-card-title {
+		font-size: 0.85em;
+		font-weight: 700;
+		color: #3d3d3d;
+		letter-spacing: 0.02em;
+		transition: color 0.15s ease;
+	}
+
+	a.link-card:hover .link-card-title {
+		color: #49bf9d;
+	}
+
+	.link-card-desc {
+		font-size: 0.72em;
+		color: #aaa;
+		line-height: 1.4;
+	}
+
+	@media screen and (max-width: 736px) {
+		.link-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
