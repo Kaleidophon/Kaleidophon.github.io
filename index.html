@@ -8,6 +8,7 @@
 	<head>
 		<title>Dennis Ulmer</title>
 		<meta charset="utf-8" />
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="https://kit.fontawesome.com/b6870f5e42.js" crossorigin="anonymous"></script>
@@ -15,61 +16,50 @@
 	</head>
 	<body class="is-preload">
 
+		<canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="#" class="image avatar"><img src="images/avatar.jpg" alt="" /></a>
-					<!--
-					<h1><strong>I am Dennis Ulmer, PhD student<br />
-					at the <a href="https://en.itu.dk/">IT University Copenhagen</a>.<br />
-					</strong></h1>
-					-->
-					<p style="color:white">Working with &#x1F916;&#x1F4AD; (they / them)</p>
-					<ul class="icons">
-
-						<li><a href="https://bsky.app/profile/dnnslmr.bsky.social" style="border: 0">
-							<i class="fa-brands fa-bluesky fa-xl" ></i>
-						</a></li>
-						<!--
-						<li><a href="https://twitter.com/dnnslmr" style="border: 0">
-							<i class="fa-brands fa-x-twitter fa-xl" ></i>
-						</a></li>
-						-->
-						<li><a href="https://github.com/Kaleidophon" style="border: 0">
-							<i class="fa-brands fa-github fa-xl" ></i>
-						</a></li>
-						<li><a href="https://www.linkedin.com/in/dennis-ulmer-604b86128/" style="border: 0">
-							<i class="fa-brands fa-linkedin fa-xl" ></i>
-						</a></li>
-						<li><a href="https://scholar.google.com/citations?user=rn9WoaEAAAAJ" style="border: 0">
-							<i class="fa-brands fa-google-scholar fa-xl" ></i>
-						</a></li>
-						<li><a href="mailto: dennis DOT ulmer AT mailbox DOT org" style="border: 0">
-							<i class="fa-solid fa-envelope fa-xl" ></i>
-						</a></li>
-					</ul>
-				</div>
-			</header>
+			</div>
+		</header>
 
 		<!-- Main -->
 			<div id="main">
 
+				<nav id="site-nav">
+					<a href="index.html" aria-label="Home"><i class="fa-solid fa-house"></i></a>
+					<a href="publications.html">Publications</a>
+					<a href="blog.html">Blog</a>
+					<a href="cv.html">CV</a>
+					<a href="links.html">Links</a>
+					<div class="nav-social">
+						<a href="https://bsky.app/profile/dnnslmr.bsky.social" aria-label="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
+						<a href="https://github.com/Kaleidophon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+						<a href="https://www.linkedin.com/in/dennis-ulmer-604b86128/" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+						<a href="https://scholar.google.com/citations?user=rn9WoaEAAAAJ" aria-label="Google Scholar"><i class="fa-brands fa-google-scholar"></i></a>
+						<a href="mailto: dennis DOT ulmer AT mailbox DOT org" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+						<a href="https://iidconsulting.eu" aria-label="IID Consulting" class="nav-iid" target="_blank" rel="noopener">
+							<svg viewBox="0 0 452 301" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+								<path fill="currentColor" d="M315.371 29.2486C263.248 17.8017 242.657 305.347 145.168 311.757L143.238 313.132L142.594 314.505L141.951 316.795V320H483C393.555 292.527 367.494 40.6955 315.371 29.2486Z"/>
+								<path fill="currentColor" d="M126.257 37.0281C132.046 30.1923 138.159 26.8818 144.791 28.3383C151.395 29.7885 157.561 35.0405 163.464 43.1138C169.368 51.1869 175.027 62.1074 180.618 74.946C191.799 100.616 202.75 134.061 214.847 167.949C217.245 174.665 219.688 181.399 222.187 188.095C212.476 215.202 201.71 241.373 189.123 262.547C172.701 290.174 153.211 309.247 128.962 310.842L128.894 310.846L128.833 310.89L126.826 312.319L126.778 312.42L126.116 313.834L126.104 313.878L125.461 316.167L125.437 316.249V320H-29V316.249L-28.9767 316.167L-28.3333 313.878L-28.3213 313.834L-27.659 312.42L-27.6118 312.319L-25.6047 310.89L-25.5438 310.846L-25.4759 310.842C-1.22661 309.247 18.2636 290.174 34.686 262.547C51.111 234.916 64.4389 198.777 76.3626 163.152C88.2774 127.552 98.7985 92.4395 109.593 66.9663C114.991 54.2267 120.474 43.8564 126.257 37.0281Z"/>
+								<path fill="currentColor" d="M216.003 39.841C221.029 33.9068 226.341 31.028 232.107 32.2941C237.844 33.554 243.198 38.1157 248.321 45.1199C253.385 52.0447 258.239 61.3831 263.035 72.3519C254.596 93.7115 246.238 121.293 236.893 149.211C234.489 156.393 232.017 163.598 229.463 170.73C227.31 164.959 225.205 159.157 223.138 153.369C213.648 126.786 204.97 100.511 196.221 79.2612C197.994 74.5123 199.765 70.0112 201.544 65.812C206.226 54.7649 210.983 45.7675 216.003 39.841Z"/>
+							</svg>
+						</a>
+					</div>
+				</nav>
+
 				<!-- One -->
 					<section id="one">
 						<header class="major">
-							<h3>I am Dennis Ulmer, Postdoc in Natural Language Processing and Machine Learning at the <a href="https://www.illc.uva.nl/">Institute for Logic, Language and Computation (ILLC)</a> at the <a href="https://https://www.uva.nl//">University of Amsterdam (UvA)</a>.<br />
+							<h3>Hey!  &#x1F44B;&#x1F3FB;<br />
 							</h3>
 						</header>
-						<p>I am currently a postdoctoral researcher working with <a href="http://ivan-titov.org/">Ivan Titov</a>.
-						My current research interests include uncertainty estimation methods with application to Natural Language Processing, better experimental design, learning for low-resource languages, generalization, and many more!<br /><br />
+						<p>I am Dennis Ulmer, a postdoctoral researcher in natural language processing and machine learning at the <a href="https://www.illc.uva.nl/">Institute for Logic, Language and Computation (ILLC)</a> at the <a href="https://https://www.uva.nl//">University of Amsterdam (UvA)</a>, where I am working with <a href="http://ivan-titov.org/">Prof. Ivan Titov</a>.<br><br>
 
-						Before my postdoc, I was a PhD student under <a href="https://christianhardmeier.rax.ch/">Christian Hardmeier</a> at the <a href="https://nlpnorth.github.io/">NLPnorth</a> group @ IT University Copenhagen and <a href="https://frellsen.org/">Jes Frellsen</a> @ Technical University of Denmark (DTU).<br /><br />
-						My background also includes an undergraduate degree in Computational Linguistics from the University of Heidelberg and a master's degree in Artificial Intelligence from the University of Amsterdam, where I wrote
-						my thesis under <a href="https://dieuwkehupkes.nl/">Dieuwke Hupkes</a> and <a href="https://eliabruni.github.io/">Elia Bruni</a>.
-						On other occasions, I also had the pleasure to work with <a href="https://andre-martins.github.io/">André Martins</a> at the Instituto Superior Técnico,  <a href="https://coallaoh.github.io/">Seong Joon Oh</a> at <a href="https://www.parameterlab.de/">Parameter Lab</a>, <a href="https://mansimov.io/">Elman Mansimov</a> at <a href="https://aws.amazon.com/ai/">Amazon Web Services</a> and <a href="https://sites.google.com/site/homepagegcina/">Giovanni Cinà</a>  at <a href="https://pacmed.ai/pacmed-labs/">Pacmed Labs</a>.<br/>
+						My current research interests include uncertainty quantification methods with application to NLP, better experimental design, learning for low-resource languages, generalization, and many more!<br /><br />
 
-
-						Questions or ideas for collaborations? Message me via the options on the left / top!
+						Questions or ideas for collaborations? Message me via the options on the top right!
 						</p>
 						<!--
 						<ul class="actions">
@@ -102,149 +92,9 @@
 					</ul>
 				</section>
 
-				<!-- Two -->
-					<section id="three">
-						<h2>&#x1F393; Publications</h2>
-						<h5>(* = Equal contribution)</h5><br/>
-
-						<h3> <b>2025</b></h3>
-						<ul>
-							<li> <b>Dennis Ulmer</b>, Alexandra Lorson, Ivan Titov, Christian Hardmeier: <i>Anthropomimetic uncertainty: What verbalized uncertainty in language models is missing</i> (Arxiv) [<a href="https://arxiv.org/pdf/2507.10587">pdf</a>] </li>
-						</ul>
-
-						<h3> <b>2024</b></h3>
-						<ul>
-							<li> <b>Dennis Ulmer</b>: <i>On Uncertainty In Natural Language Processing</i> (Doctoral thesis) [<a href="https://arxiv.org/pdf/2410.03446">pdf</a>] </li>
-							<li> <b>Dennis Ulmer</b>, Martin Gubri, Sangdoo Yun, Hwaran Lee, Seong Joon Oh: <i>Calibrating Large Language Models Using Their Generations Only</i> (pre-print) [<a href="https://arxiv.org/pdf/2403.05973.pdf">pdf</a>] </li>
-							<li> Martin Gubri, <b>Dennis Ulmer</b>, Sangdoo Yun, Hwaran Lee, Seong Joon Oh: <i>TRAP: Targeted Random Adversarial Prompt Honeypot for Black-Box
-Identification</i> (pre-print) [<a href="https://arxiv.org/pdf/2402.12991.pdf">pdf</a>] </li>
-							<li> <b>Dennis Ulmer</b>, Chrysoula Zerva, André F. T. Martins: <i>Non-Exchangeable Conformal Language Generation with
-Nearest Neighbors</i> (EACL 2024) [<a href="https://arxiv.org/pdf/2402.00707.pdf">pdf</a>] </li>
- 							<li> Antonio Farinhas, Chrysoula Zerva, <b>Dennis Ulmer</b>, André F. T. Martins: <i>"Non-Exchangeable Conformal Risk Control"</i> (ICLR 2024) [<a href="https://arxiv.org/pdf/2310.01262.pdf">pdf</a>]</li>
-							<li> <b>Dennis Ulmer</b>, Elman Mansimov, Kaixiang Lin, Justin Sun, Xibin Gao, Yi Zhang: <i>"Bootstrapping LLM-based Task-Oriented Dialogue Agents via Self-Talk"</i> (pre-print) [<a href="https://arxiv.org/pdf/2310.01262.pdf">pdf</a>]</li>
-						</ul>
-
-						<h3> <b>2023</b></h3>
-						<ul>
-							<li> Dieuwke Hupkes, Mario Giulianelli, Verna Dankers, Mikel Artetxe, Yanai Elazar, Tiago Pimentel, Christos Christodoulopoulos, Karim Lasri, Naomi Saphra, Arabella Sinclair, <b>Dennis Ulmer</b>, Florian Schottmann, Khuyagbaatar Batsuren, Kaiser Sun, Koustuv Sinha, Leila Khalatbari, Rita Frieske, Ryan Cotterell, Zhijing Jin: <i> "State-of-the-art Generalisation Research in NLP: A Taxonomy and Review"</i>  (Nature Machine Intelligence) [<a href="https://www.nature.com/articles/s42256-023-00729-y?utm_source=twitter&utm_medium=organic_social&utm_campaign=research&utm_content=link">pdf</a>]
-							<li> Antonio Farinhas, Chrysoula Zerva, <b>Dennis Ulmer</b>, André F. T. Martins: <i>"Non-Exchangeable Conformal Risk Control"</i> (Preprint) [<a href="https://arxiv.org/pdf/2310.01262.pdf">pdf</a>]</li> </li>
-							 <li> Joris Baan*, Nico Daheim*, Evgenia Ilia*, <b>Dennis Ulmer*</b>, Haau-Sing Li, Raquel Fernández, Barbara Plank, Rico Sennrich, Chrysoula Zerva, Wilker Aziz: <i>"Uncertainty in Natural Language Generation: From Theory to Applications"</i> (Preprint) [<a href="https://arxiv.org/pdf/2307.15703.pdf">pdf</a>]</li> </li>
-							 <li><b>Dennis Ulmer</b>, Christian Hardmeier, Jes Frellsen: <i>"Prior and Posterior Networks: A Survey on Evidential Deep Learning Methods For Uncertainty Estimation"</i> (Transactions on Machine Learning Research) [<a href="https://openreview.net/pdf?id=xqS8k9E75c">pdf</a>]</li>
-						</ul>
-						<h3> <b>2022</b> </h3>
-						<ul>
-							<li><b>Dennis Ulmer</b>, Jes Frellsen, Christian Hardmeier: <i>"Exploring Predictive Uncertainty and Calibration in NLP: A Study on the Impact of Method & Data Scarcity"</i> (Findings at EMNLP 2022) [<a href="https://arxiv.org/pdf/2210.15452.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/nlp-low-resource-uncertainty">experimental code</a>]  [<a href="https://github.com/Kaleidophon/nlp-uncertainty-zoo">model code</a>]</li>
-							<li><b>Dennis Ulmer</b>, Elisa Bassignana, Max Müller-Eberstein, Daniel Varab, Mike Zhang, Rob van der Goot, Christian Hardmeier, Barbara Plank: "Experimental Standards for Deep Learning in Natural Language Processing Research"</i> (Findings at EMNLP 2022) [<a href="https://arxiv.org/pdf/2204.06251.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/experimental-standards-deep-learning-research">resource repo</a>]
-							<li><b>Dennis Ulmer</b>, Christian Hardmeier, Jes Frellsen: <i>"deep-significance: Easy and Meaningful Signifcance Testing in the Age of Neural Networks"</i> (Machine Learning Evaluation Standards at ICLR 2022) [<a href="https://arxiv.org/pdf/2204.06815.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/deep-significance">code</a>]  </li>
-							<li><b>Dennis Ulmer</b>, Elisa Bassignana, Max Müller-Eberstein, Daniel Varab, Mike Zhang, Christian Hardmeier, Barbara Plank: <i>"Experimental Standards for Deep Learning Research: A Natural Language Processing Perspective"</i> (selected as <i>outstanding paper</i> at Machine Learning Evaluation Standards at ICLR 2022) [<a href="https://arxiv.org/pdf/2204.06251.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/experimental-standards-deep-learning-research">repo</a>] </li>
-						</ul>
-						<h3> <b>2021</b> </h3>
-						<ul>
-							 <li><b>Dennis Ulmer</b>, Giovanni Cin&agrave: <i>"Know Your Limits: Uncertainty Estimation with ReLU Classifiers Fails at Reliable OOD Detection"</i> (UAI 2021) [<a href="https://proceedings.mlr.press/v161/ulmer21a/ulmer21a.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/know-your-limits">code</a>]</li>
-						</ul>
-						<h3> <b>2020</b> </h3>
-						<ul>
-							 <li><b>Dennis Ulmer</b>, Lotta Meijerink, Giovanni Cin&agrave: <i>"Trust issues: Uncertainty estimation does not enable reliable OOD detection on medical tabular data"</i> (NeurIPS 2020 ML4H Workshop) [<a href="https://arxiv.org/pdf/2011.03274.pdf">pdf</a>] [<a href="https://github.com/Pacmed/ehr_ood_detection">code</a>]</li>
-						</ul>
-						<h3> <b>2019</b> </h3>
-						<ul>
-							 <li>Joris Baan*, Jana Leible*, Mitja Nikolaus*, David Rau*, <b>Dennis Ulmer*</b>, Tim Baumg&auml;rtner, Dieuwke Hupkes, Elia Bruni: <i>"On the realization of compositionality in neural networks"</i> (ACL 2019 BlackboxNLP Workshop) [<a href="https://arxiv.org/pdf/1906.01634.pdf">pdf</a>]</li>
-							 <li><b>Dennis Ulmer</b>, Dieuwke Hupkes, Elia Bruni: <i>"Assessing incrementality in sequence-to-sequence models"</i> (ACL 2019 Repl4NLP Workshop) [<a href="https://arxiv.org/pdf/1906.03293.pdf">pdf</a>]</li>
-							 <li><b>Dennis Ulmer</b>: <i>"Recoding latent sentence representations - Dynamic gradient-based activation modification in RNNs"</i> (Master Thesis) [<a href="https://arxiv.org/pdf/2101.00674.pdf">pdf</a>] [<a href="https://github.com/Kaleidophon/tenacious-toucan">code</a>]</li>
-						</ul>
-						<!--
-						<div class="row">
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="https://arxiv.org/abs/2011.03274" class="image fit thumb"><img src="images/thumbs/trust_issues.png" alt="" /></a>
-								<h4>Trust issues: Uncertainty estimation does not enable reliable OOD detection on medical tabular data</h3>
-								<h6>Dennis Ulmer, Lotta Meijerink, Giovanni Cin&agrave;</h4>
-								<p>Can uncertainty estimation techniques for neural network reliably detect outliers in electronic health records?</p>
-							</article>
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="https://arxiv.org/pdf/1906.01634.pdf" class="image fit thumb"><img src="images/thumbs/compositionality.png" alt="" /></a>
-								<h4>On the realization of compositionality in neural networks</h3>
-								<h6>Joris Baan, Jana Leible, Mitja Nikolaus, David Rau, Dennis Ulmer, Tim Baumg&auml;rtner, Dieuwke Hupkes, Elia Bruni</h4>
-								<p>The training technique called "attentive guidance" produces compositional RNNs. Can we reveal with different model introspection techniques what makes them different?</p>
-							</article>
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="https://arxiv.org/pdf/1906.03293.pdf" class="image fit thumb"><img src="images/thumbs/incrementality.png" alt="" /></a>
-								<h4>Assessing incrementality in sequence-to-sequence models</h3>
-								<h6>Dennis Ulmer, Dieuwke Hupkes, Elia Bruni</h4>
-								<p>Humans are able to process language incrementally under time pressure with limited memory. Can we find similar behavior in RNNs?</p>
-							</article>
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="images/fulls/04.jpg" class="image fit thumb"><img src="images/thumbs/04.jpg" alt="" /></a>
-								<h3>Quam neque phasellus</h3>
-								<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-							</article>
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="images/fulls/05.jpg" class="image fit thumb"><img src="images/thumbs/05.jpg" alt="" /></a>
-								<h3>Nunc enim commodo aliquet</h3>
-								<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-							</article>
-							<article class="col-6 col-12-xsmall work-item">
-								<a href="images/fulls/06.jpg" class="image fit thumb"><img src="images/thumbs/06.jpg" alt="" /></a>
-								<h3>Risus ornare lacinia</h3>
-								<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-							</article>
-						</div>
-						-->
-						<!--
-						<ul class="actions">
-							<li><a href="#" class="button">Full Portfolio</a></li>
-						</ul>
-						-->
-					</section>
-
-					<!-- Three -->
-					<section id="four">
-						<h2>&#x1F4D1; Blog</h2>
-						<ul>
-							<li><a href="./how-robust-are-transformers.html">How Robust Are Transformers? Insights from three EMNLP 2021 papers (25.01.22)</a></li>
-						</ul>
-					</section>
-
-					<section id="five">
-						<h2>&#x1F3C6; Awards</h2>
-						<ul>
-							<li>Outstanding paper award for <i>Experimental Standards for Deep Learning Research: A Natural Language Processing perspective</i> at Machine Learning Evaluation Standards Workshop at ICLR 2022</li>
-							<li>Outstanding reviewer at Machine Learning Evaluation Standards Workshop at ICLR 2022</li>
-						</ul>
-					</section>
-
 
 					<!-- Four -->
-						<section id="six">
-							<h2>&#x1F4BB; Highlighted Coding Projects</h2>
-							<div class="row">
-								<article class="col-6 col-12-xsmall work-item">
-									<a href="https://github.com/Kaleidophon/nlp-uncertainty-zoo" class="image fit thumb"><img src="images/thumbs/nlp_uncertainty_zoo.png" alt="" /></a>
-									<h3>nlp-uncertainty-zoo</h3>
-									<p>Repostory containing model implementations for methods for uncertainty quantification in NLP.</p>
-								</article>
-								<article class="col-6 col-12-xsmall work-item">
-									<a href="https://github.com/Kaleidophon/deep-significance" class="image fit thumb"><img src="images/thumbs/aso.png" alt="" /></a>
-									<h3>deep-significance</h3>
-									<p>Easy and Better Significance Testing for Deep Neural Networks.</p>
-								</article>
-								<article class="col-6 col-12-xsmall work-item">
-									<a href="https://github.com/Kaleidophon/token2index" class="image fit thumb"><img src="images/thumbs/token2index.png" alt="" /></a>
-									<h3>&#128199;&#9889; token2index</h3>
-									<p>A lightweight but powerful library for token indexing,
-									fully tested and compatible with PyTorch and Tensorflow.</p>
-								</article>
-								<article class="col-6 col-12-xsmall work-item">
-									<a href="https://github.com/Pacmed/ehr_ood_detection" class="image fit thumb"><img src="images/thumbs/eicu_mimic_manifold.png" alt="" /></a>
-									<h3>OOD Detection For Electronic Health Records</h3>
-									<p>Collection of a multitude of methods used for OOD detection on Electronic Health Records.</p>
-								</article>
-							</div>
-							<!--
-							<ul class="actions">
-								<li><a href="#" class="button">Full Portfolio</a></li>
-							</ul>
-							-->
-						</section>
+
 
 				<!-- Three -->
 				<!--
@@ -609,11 +459,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="inner">
-					<ul class="copyright">
-						<li>&copy; Dennis Ulmer</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</div>
-			</footer>
+			</div>
+		</footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -622,6 +469,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+		<script src="assets/js/shared-header.js"></script>
+			<script src="assets/js/shared-footer.js"></script>
+			<script src="assets/js/fluid-bg.js"></script>
 
 	</body>
 </html>
