@@ -19,6 +19,7 @@
     var FS = [
         'precision highp float;',
         'uniform float uTime;',
+        'uniform float uScale;',
         'uniform vec2  uRes;',
 
         'vec2 gh(vec2 p){',
@@ -53,7 +54,7 @@
         'void main(){',
         '  vec2 uv=gl_FragCoord.xy/uRes;',
         '  float t=uTime*0.035;',
-        '  vec2 p=uv*1.8;',
+        '  vec2 p=uv*uScale;',
         '  vec2 d0=vec2(gn(vec2(t*0.07,0.13)),gn(vec2(0.27,t*0.05)))*2.5;',
         '  vec2 d1=vec2(gn(vec2(t*0.06,0.91)),gn(vec2(0.74,t*0.08)))*2.0;',
         '  vec2 d2=vec2(gn(vec2(t*0.09,0.45)),gn(vec2(0.52,t*0.06)))*1.6;',
@@ -105,9 +106,10 @@
         -1, 1,  1,-1,  1, 1
     ]), gl.STATIC_DRAW);
 
-    var aPos  = gl.getAttribLocation(prog, 'aPos');
-    var uTime = gl.getUniformLocation(prog, 'uTime');
-    var uRes  = gl.getUniformLocation(prog, 'uRes');
+    var aPos   = gl.getAttribLocation(prog, 'aPos');
+    var uTime  = gl.getUniformLocation(prog, 'uTime');
+    var uScale = gl.getUniformLocation(prog, 'uScale');
+    var uRes   = gl.getUniformLocation(prog, 'uRes');
 
     function resize() {
         canvas.width  = canvas.clientWidth;
@@ -124,8 +126,9 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, buf);
         gl.enableVertexAttribArray(aPos);
         gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-        gl.uniform1f(uTime, (ts - t0) / 1000.0);
-        gl.uniform2f(uRes,  canvas.width, canvas.height);
+        gl.uniform1f(uTime,  (ts - t0) / 1000.0);
+        gl.uniform1f(uScale, canvas.width < 600 ? 1.2 : 1.8);
+        gl.uniform2f(uRes,   canvas.width, canvas.height);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(frame);
     }
