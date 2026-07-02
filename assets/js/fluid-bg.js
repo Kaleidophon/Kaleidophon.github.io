@@ -127,7 +127,7 @@
         gl.enableVertexAttribArray(aPos);
         gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
         gl.uniform1f(uTime,  (ts - t0) / 1000.0);
-        gl.uniform1f(uScale, canvas.width < 600 ? 1.2 : 1.8);
+        gl.uniform1f(uScale, canvas.width < 600 ? 1.44 : 1.8);
         gl.uniform2f(uRes,   canvas.width, canvas.height);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(frame);
