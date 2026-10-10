@@ -1,0 +1,14 @@
+# Dennis Ulmer (they/them) - https://dennisulmer.eu
+# Search and assistant crawlers are explicitly welcome.
+
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Googlebot
+User-agent: Bingbot
+Allow: /
+
+User-agent: *
+Allow: /
