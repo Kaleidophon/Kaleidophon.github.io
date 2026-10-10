@@ -2146,6 +2146,46 @@ input, select, textarea {
 				width: 100%;
 			}
 
+			/* avatar easter egg: two-sided coin, flipped from shared-header.js */
+			.image.avatar {
+				-webkit-perspective: 40em;
+				perspective: 40em;
+				touch-action: manipulation;
+			}
+
+			.image.avatar .coin {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+				-webkit-transition: -webkit-transform 1s ease-in-out;
+				transition: transform 1s ease-in-out;
+				display: block;
+				position: relative;
+			}
+
+			.image.avatar .coin.flipped {
+				-webkit-transform: rotateY(540deg);
+				transform: rotateY(540deg);
+			}
+
+			.image.avatar .coin img {
+				-webkit-backface-visibility: hidden;
+				backface-visibility: hidden;
+			}
+
+			.image.avatar .coin .coin-back {
+				-webkit-transform: rotateY(180deg);
+				transform: rotateY(180deg);
+				height: 100%;
+				left: 0;
+				/* whole picture visible with a margin around it, filled with its edge colours */
+				background: linear-gradient(#c8d0d6 25%, #ba9b6c 75%);
+				box-sizing: border-box;
+				object-fit: contain;
+				padding: 13%;
+				position: absolute;
+				top: 0;
+			}
+
 /* List */
 
 	ol {
@@ -2648,8 +2688,22 @@ input, select, textarea {
 			color: rgba(255, 255, 255, 0.4);
 		}
 
+	/* kept in the markup for crawlers, hidden from view */
+	#footer .last-updated {
+		border: 0;
+		clip: rect(0, 0, 0, 0);
+		clip-path: inset(50%);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
 	#footer .copyright {
-		color: rgba(255, 255, 255, 0.4);
+		color: #ffffff;
 		font-size: 0.8em;
 		list-style: none;
 		margin: 1em 0 0 0;

@@ -105,8 +105,8 @@
         // dots take a darkened palette colour that follows the deformation field,
         // and flare up pale where a ripple is passing through
         '  vec3 col=palette(0.5+1.5*(r.x-r.y))*0.55;',
-        '  float glow=smoothstep(0.4,5.0,length(aOff));',
-        '  vColor=vec4(mix(col,vec3(1.0,0.97,0.88),0.85*glow),mix(0.55,0.90,glow));',
+        '  float glow=smoothstep(0.2,3.0,length(aOff));',
+        '  vColor=vec4(mix(col,vec3(1.0,0.97,0.88),0.92*glow),mix(0.55,0.90,glow));',
         '  gl_PointSize=uPoint*(1.0+0.7*glow);',
         '}'
     ].join('\n');
@@ -203,8 +203,8 @@
     // Pointer interaction: the grid doubles as a water surface. A press drops a small
     // dent into it, a drag trails dents behind the pointer, and the wave equation
     // carries the ripples outwards. Dots are shifted along the surface slope.
-    var WAVE_SPEED = 200;   // css px per second
-    var WAVE_DAMP  = 0.5;   // per second
+    var WAVE_SPEED = 100;   // css px per second
+    var WAVE_DAMP  = 0.3;   // per second
     var DROP_RADIUS = 45;   // css px
     var PUSH = 16;          // css px of dot shift per unit of surface slope
 
@@ -226,7 +226,7 @@
         var steps = Math.max(1, Math.ceil(dist / cell));
         for (var k = 1; k <= steps; k++) {
             var a = k / steps;
-            drop(x0 + (x1 - x0) * a, y0 + (y1 - y0) * a, 0.25 * dist / steps);
+            drop(x0 + (x1 - x0) * a, y0 + (y1 - y0) * a, 0.125 * dist / steps);
         }
     }
 
@@ -264,7 +264,7 @@
     }
 
     var last = null;
-    function down(x, y) { last = [x, y]; drop(x, y, 19); }
+    function down(x, y) { last = [x, y]; drop(x, y, 9.5); }
     function move(x, y) {
         if (!last) return;
         trail(last[0], last[1], x, y);
@@ -298,12 +298,18 @@
 
     gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-    var t0 = null, tPrev = 0;
+    var t0 = null, tPrev = 0, nextDrop = 1.0;
     function frame(ts) {
         if (!t0) t0 = ts;
         var t = (ts - t0) / 1000.0;
         var dt = Math.min(t - tPrev, 1 / 30);
         tPrev = t;
+
+        // rain: a drop lands somewhere on the page about once a second
+        if (t >= nextDrop) {
+            drop(Math.random() * cssW, Math.random() * cssH, 4 + Math.random() * 5);
+            nextDrop = t + 0.4 + Math.random() * 1.4;
+        }
 
         gl.disable(gl.BLEND);
         gl.useProgram(bgProg);
