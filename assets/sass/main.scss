@@ -1150,6 +1150,12 @@ $size-header-pad: 4em;
 		}
 	}
 
+/* Background touch: drags over the bare background move the mesh (mesh-bg.js), not the page */
+
+	#header, #footer {
+		touch-action: none;
+	}
+
 /* Footer */
 
 	#footer {

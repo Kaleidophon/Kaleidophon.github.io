@@ -2678,6 +2678,12 @@ input, select, textarea {
 			width: 6.25em;
 		}
 
+/* Background touch: drags over the bare background move the mesh (mesh-bg.js), not the page */
+
+	#header, #footer {
+		touch-action: none;
+	}
+
 /* Footer */
 
 	#footer .icons {

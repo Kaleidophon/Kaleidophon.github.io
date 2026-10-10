@@ -283,6 +283,16 @@
     window.addEventListener('touchend', up, passive);
     window.addEventListener('touchcancel', up, passive);
 
+    // A touch drag that starts on the bare background (header, footer) plays with the
+    // mesh instead of scrolling; drags on the page body scroll as usual.
+    var onBackground = false;
+    window.addEventListener('touchstart', function (e) {
+        onBackground = !(e.target.closest && e.target.closest('#main'));
+    }, passive);
+    window.addEventListener('touchmove', function (e) {
+        if (onBackground && e.cancelable) e.preventDefault();
+    }, { passive: false });
+
     function resize() {
         dpr  = Math.min(window.devicePixelRatio || 1, 2);
         cssW = canvas.clientWidth;
@@ -298,6 +308,21 @@
 
     gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
+    // Random point for a raindrop. Most drops are steered to the part of the viewport
+    // that is not covered by the page body, the rest may land anywhere.
+    var mainEl = document.getElementById('main');
+    function rainSpot() {
+        var x = Math.random() * cssW, y = Math.random() * cssH;
+        if (!mainEl || Math.random() > 0.85) return [x, y];
+        var r = mainEl.getBoundingClientRect();
+        for (var k = 0; k < 20; k++) {
+            if (x < r.left || x > r.right || y < r.top || y > r.bottom) break;
+            x = Math.random() * cssW;
+            y = Math.random() * cssH;
+        }
+        return [x, y];
+    }
+
     var t0 = null, tPrev = 0, nextDrop = 1.0;
     function frame(ts) {
         if (!t0) t0 = ts;
@@ -305,10 +330,11 @@
         var dt = Math.min(t - tPrev, 1 / 30);
         tPrev = t;
 
-        // rain: a drop lands somewhere on the page about once a second
+        // rain: a drop lands every couple of seconds, mostly where the background shows
         if (t >= nextDrop) {
-            drop(Math.random() * cssW, Math.random() * cssH, 4 + Math.random() * 5);
-            nextDrop = t + 0.4 + Math.random() * 1.4;
+            var spot = rainSpot();
+            drop(spot[0], spot[1], 4 + Math.random() * 5);
+            nextDrop = t + 0.8 + Math.random() * 2.8;
         }
 
         gl.disable(gl.BLEND);
