@@ -14,7 +14,7 @@
         return;
     }
 
-    var PAD = 6;   // extra grid cells beyond each viewport edge, hides the mesh border
+    var PAD = 6;   // extra grid cells beyond each viewport edge, hides the mesh border (set in resize)
 
     var NOISE = [
         'precision highp float;',
@@ -47,6 +47,16 @@
         '  if(s<1.0)return mix(c0,c1,s);',
         '  if(s<2.0)return mix(c1,c2,s-1.0);',
         '  return mix(c2,c3,s-2.0);',
+        '}',
+
+        // Shared flow field. The background colours are a noise pattern looked up through
+        // this warp, and the mesh dots are displaced by the very same warp, so both move
+        // as one. p is in background space: uv*uScale, y pointing up.
+        'uniform float uScale;',
+        'vec2 drift0(){float t=uTime*0.105;return vec2(gn(vec2(t*0.07,0.13)),gn(vec2(0.27,t*0.05)))*2.5;}',
+        'vec2 drift1(){float t=uTime*0.105;return vec2(gn(vec2(t*0.06,0.91)),gn(vec2(0.74,t*0.08)))*2.0;}',
+        'vec2 flow(vec2 p){',
+        '  return vec2(fbm(p+drift0()),fbm(p+vec2(5.2,1.3)+drift1()));',
         '}'
     ].join('\n');
 
@@ -55,24 +65,20 @@
 
     var BG_FS = [
         NOISE,
-        'uniform float uScale;',
         'uniform vec2  uRes;',
 
         'void main(){',
         '  vec2 uv=gl_FragCoord.xy/uRes;',
-        '  float t=uTime*0.035;',
         '  vec2 p=uv*uScale;',
-        '  vec2 d0=vec2(gn(vec2(t*0.07,0.13)),gn(vec2(0.27,t*0.05)))*2.5;',
-        '  vec2 d1=vec2(gn(vec2(t*0.06,0.91)),gn(vec2(0.74,t*0.08)))*2.0;',
-        '  vec2 q=vec2(fbm(p+d0),fbm(p+vec2(5.2,1.3)+d1));',
-        '  float f=fbm(p*0.7+1.5*q+d1.yx);',
+        '  vec2 q=flow(p);',
+        '  float f=fbm(p*0.7+2.4*q+drift1().yx);',
         '  float val=clamp(0.5+0.90*f,0.0,1.0);',
         '  val=mix(val,1.0-uv.y,0.35);',
         '  gl_FragColor=vec4(palette(val),1.0);',
         '}'
     ].join('\n');
 
-    // Mesh: regular grid whose vertices are pushed around by domain-warped noise
+    // Mesh: regular grid whose vertices are carried along by the background's flow field
     var MESH_VS = [
         NOISE,
         'attribute vec2 aGrid;',
@@ -80,31 +86,20 @@
         'uniform vec2  uRes;',
         'uniform float uCell;',
         'uniform float uPoint;',
+        'uniform float uWarp;',
         'varying vec4  vColor;',
 
-        // two smooth octaves only, finer detail would kink the grid lines
-        'float sn(vec2 p){',
-        '  return gn(p)+0.35*gn(mat2(0.80,0.60,-0.60,0.80)*p*1.9+vec2(43.7));',
-        '}',
-
         'void main(){',
-        '  float t=uTime*0.035;',
-        '  vec2 p=aGrid*0.055;',
-        '  vec2 d0=vec2(gn(vec2(t*0.90,0.13)),gn(vec2(0.27,t*0.70)))*2.5;',
-        '  vec2 d1=vec2(gn(vec2(t*0.80,0.91)),gn(vec2(0.74,t*1.00)))*2.0;',
-        '  vec2 d2=vec2(gn(vec2(t*1.10,0.45)),gn(vec2(0.52,t*0.80)))*1.6;',
-        '  vec2 q=vec2(',
-        '    sn(p+d0),',
-        '    sn(p+vec2(5.2,1.3)+d1));',
-        '  vec2 r=vec2(',
-        '    sn(p+1.2*q+vec2(1.7,9.2)+d2),',
-        '    sn(p+1.2*q+vec2(8.3,2.8)+d2.yx));',
-        '  vec2 px=(aGrid+5.5*r)*uCell+aOff;',
+        '  vec2 rest=aGrid*uCell;',
+        '  vec2 q=flow(vec2(rest.x/uRes.x,1.0-rest.y/uRes.y)*uScale);',
+        // the colour pattern is read at p+k*q, so it bunches up where q spreads out;
+        // moving each dot by -q (y flipped to screen space) bunches the dots up there too
+        '  vec2 px=rest+uWarp*vec2(-q.x,q.y)+aOff;',
         '  vec2 clip=px/uRes*2.0-1.0;',
         '  gl_Position=vec4(clip.x,-clip.y,0.0,1.0);',
         // dots take a darkened palette colour that follows the deformation field,
         // and flare up pale where a ripple is passing through
-        '  vec3 col=palette(0.5+1.5*(r.x-r.y))*0.55;',
+        '  vec3 col=palette(0.5+1.5*(q.x-q.y))*0.55;',
         '  float glow=smoothstep(0.2,3.0,length(aOff));',
         '  vColor=vec4(mix(col,vec3(1.0,0.97,0.88),0.92*glow),mix(0.55,0.90,glow));',
         '  gl_PointSize=uPoint*(1.0+0.7*glow);',
@@ -168,6 +163,8 @@
     var mTime  = gl.getUniformLocation(meshProg, 'uTime');
     var mRes   = gl.getUniformLocation(meshProg, 'uRes');
     var mCell  = gl.getUniformLocation(meshProg, 'uCell');
+    var mScale = gl.getUniformLocation(meshProg, 'uScale');
+    var mWarp  = gl.getUniformLocation(meshProg, 'uWarp');
     var mPoint = gl.getUniformLocation(meshProg, 'uPoint');
 
     var gridBuf = gl.createBuffer();
@@ -176,7 +173,7 @@
     var h = null, hv = null;   // water surface height per grid vertex and its velocity
     var off = null;            // resulting per-vertex dot shift (css px)
     var stirred = false;
-    var dpr = 1, cell = 18, cssW = 0, cssH = 0;
+    var dpr = 1, cell = 18, cssW = 0, cssH = 0, scale = 1.8, warp = 0;
 
     function buildGrid() {
         cols = Math.ceil(cssW / cell) + 2 * PAD + 1;
@@ -272,15 +269,26 @@
     }
     function up() { last = null; }
 
-    window.addEventListener('mousedown', function (e) { if (e.button === 0) down(e.clientX, e.clientY); });
+    // presses on the avatar and the header emojis belong to their own easter eggs,
+    // they leave the water alone
+    function onAvatar(e) { return !!(e.target.closest && e.target.closest('.image.avatar, .party-emoji')); }
+
+    // browsers replay a tap as a mouse click right afterwards; that echo must not count twice
+    var lastTouch = -1e9;
+    function echo() { return Date.now() - lastTouch < 800; }
+
+    window.addEventListener('mousedown', function (e) { if (e.button === 0 && !onAvatar(e) && !echo()) down(e.clientX, e.clientY); });
     window.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
     window.addEventListener('mouseup', up);
     window.addEventListener('blur', up);
     // passive, so touch drags still scroll the page
     var passive = { passive: true };
-    window.addEventListener('touchstart', function (e) { down(e.touches[0].clientX, e.touches[0].clientY); }, passive);
+    window.addEventListener('touchstart', function (e) {
+        lastTouch = Date.now();
+        if (!onAvatar(e)) down(e.touches[0].clientX, e.touches[0].clientY);
+    }, passive);
     window.addEventListener('touchmove', function (e) { move(e.touches[0].clientX, e.touches[0].clientY); }, passive);
-    window.addEventListener('touchend', up, passive);
+    window.addEventListener('touchend', function () { lastTouch = Date.now(); up(); }, passive);
     window.addEventListener('touchcancel', up, passive);
 
     // A touch drag that starts on the bare background (header, footer) plays with the
@@ -298,6 +306,10 @@
         cssW = canvas.clientWidth;
         cssH = canvas.clientHeight;
         cell = cssW < 600 ? 14 : 18;
+        scale = cssW < 600 ? 1.44 : 1.8;
+        // dot displacement in css px per unit of flow, sized to the flow field's features
+        warp = 0.8 * Math.min(cssW, cssH) / scale;
+        PAD  = Math.ceil(0.7 * warp / cell) + 1;
         canvas.width  = Math.round(cssW * dpr);
         canvas.height = Math.round(cssH * dpr);
         gl.viewport(0, 0, canvas.width, canvas.height);
@@ -343,7 +355,7 @@
         gl.enableVertexAttribArray(bgPos);
         gl.vertexAttribPointer(bgPos, 2, gl.FLOAT, false, 0, 0);
         gl.uniform1f(bgTime,  t);
-        gl.uniform1f(bgScale, cssW < 600 ? 1.44 : 1.8);
+        gl.uniform1f(bgScale, scale);
         gl.uniform2f(bgRes,   canvas.width, canvas.height);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
 
@@ -364,6 +376,8 @@
         gl.uniform1f(mTime, t);
         gl.uniform2f(mRes,  cssW, cssH);
         gl.uniform1f(mCell, cell);
+        gl.uniform1f(mScale, scale);
+        gl.uniform1f(mWarp, warp);
 
         gl.uniform1f(mPoint, 3.0 * dpr);
         gl.drawArrays(gl.POINTS, 0, nVerts);

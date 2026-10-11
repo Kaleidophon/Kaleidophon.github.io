@@ -1150,6 +1150,15 @@ $size-header-pad: 4em;
 		}
 	}
 
+/* Header emojis: tappable for the confetti easter egg (shared-header.js) */
+
+	#header .party-emoji {
+		-webkit-tap-highlight-color: transparent;
+		-webkit-user-select: none;
+		user-select: none;
+		touch-action: manipulation;
+	}
+
 /* Background touch: drags over the bare background move the mesh (mesh-bg.js), not the page */
 
 	#header, #footer {
