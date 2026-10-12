@@ -335,12 +335,15 @@
         return [x, y];
     }
 
-    var t0 = null, tPrev = 0, nextDrop = 1.0;
+    // The animation runs on its own clock that only advances while frames are being
+    // drawn (at most 1/30 s per frame). A hidden or throttled page therefore pauses
+    // instead of piling up rain and jumping ahead when you come back.
+    var tsPrev = null, clock = 0, nextDrop = 1.0;
     function frame(ts) {
-        if (!t0) t0 = ts;
-        var t = (ts - t0) / 1000.0;
-        var dt = Math.min(t - tPrev, 1 / 30);
-        tPrev = t;
+        var dt = tsPrev === null ? 0 : Math.min(Math.max(ts - tsPrev, 0) / 1000.0, 1 / 30);
+        tsPrev = ts;
+        clock += dt;
+        var t = clock;
 
         // rain: a drop lands every couple of seconds, mostly where the background shows
         if (t >= nextDrop) {
