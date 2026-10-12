@@ -105,19 +105,25 @@ input, select, textarea {
 		line-height: 1.75em;
 	}
 
+	/* Site colours that go with the background gradient (see palette in mesh-bg.js) */
+	:root {
+		--accent: #498cd0;        /* links, buttons and other highlights */
+		--sidebar-text: #ebf3ff;  /* name / tagline in the header and the footer note */
+	}
+
 	a {
 		-moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		-webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		border-bottom: dotted 1px;
-		color: #49bf9d;
+		color: var(--accent);
 		text-decoration: none;
 	}
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #49bf9d !important;
+			color: var(--accent) !important;
 			text-decoration: none;
 		}
 
@@ -1841,7 +1847,7 @@ input, select, textarea {
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #49bf9d;
+			border-color: var(--accent);
 		}
 
 	select {
@@ -1946,7 +1952,7 @@ input, select, textarea {
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #49bf9d;
+			border-color: var(--accent);
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2504,8 +2510,8 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			border-color: #49bf9d;
-			color: #49bf9d !important;
+			border-color: var(--accent);
+			color: var(--accent) !important;
 		}
 
 		input[type="submit"]:active,
@@ -2513,8 +2519,8 @@ input, select, textarea {
 		input[type="button"]:active,
 		.button:active {
 			background-color: rgba(73, 191, 157, 0.1);
-			border-color: #49bf9d;
-			color: #49bf9d !important;
+			border-color: var(--accent);
+			color: var(--accent) !important;
 		}
 
 		input[type="submit"].icon,
@@ -2557,8 +2563,8 @@ input, select, textarea {
 		input[type="reset"].primary,
 		input[type="button"].primary,
 		.button.primary {
-			background-color: #49bf9d;
-			border-color: #49bf9d;
+			background-color: var(--accent);
+			border-color: var(--accent);
 			color: #ffffff !important;
 		}
 
@@ -2687,10 +2693,17 @@ input, select, textarea {
 		touch-action: manipulation;
 	}
 
-/* Background touch: drags over the bare background move the mesh (mesh-bg.js), not the page */
+/* Background drags: over the bare background they move the mesh (mesh-bg.js); they neither
+   scroll the page nor select the header / footer text or drag the avatar image along */
 
 	#header, #footer {
+		-webkit-user-select: none;
+		user-select: none;
 		touch-action: none;
+	}
+
+	#header .image.avatar img {
+		-webkit-user-drag: none;
 	}
 
 /* Footer */
@@ -2718,7 +2731,7 @@ input, select, textarea {
 	}
 
 	#footer .copyright {
-		color: #ffffff;
+		color: var(--sidebar-text);
 		font-size: 0.8em;
 		list-style: none;
 		margin: 1em 0 0 0;
@@ -3279,7 +3292,7 @@ input, select, textarea {
 	}
 
 	#site-nav a:hover {
-		color: #49bf9d;
+		color: var(--accent);
 	}
 
 	#site-nav a:first-child {
@@ -3310,7 +3323,7 @@ input, select, textarea {
 	}
 
 	.nav-social a:hover {
-		color: #49bf9d;
+		color: var(--accent);
 	}
 
 	.nav-social a i {
@@ -3365,7 +3378,7 @@ input, select, textarea {
 		gap: 1.1em;
 		padding: 0.9em 1.25em;
 		border: 0;
-		border-left: 3px solid #49bf9d;
+		border-left: 3px solid var(--accent);
 		background: #f9f9f9;
 		border-radius: 0 4px 4px 0;
 		text-decoration: none;
@@ -3402,7 +3415,7 @@ input, select, textarea {
 	}
 
 	a.blog-card:hover .blog-card-title {
-		color: #49bf9d;
+		color: var(--accent);
 	}
 
 	.blog-card-date {
@@ -3489,7 +3502,7 @@ input, select, textarea {
 	.link-card-icon {
 		font-size: 1.6em;
 		line-height: 1.2;
-		color: #49bf9d;
+		color: var(--accent);
 	}
 
 	.link-card-title {
@@ -3501,7 +3514,7 @@ input, select, textarea {
 	}
 
 	a.link-card:hover .link-card-title {
-		color: #49bf9d;
+		color: var(--accent);
 	}
 
 	.link-card-desc {

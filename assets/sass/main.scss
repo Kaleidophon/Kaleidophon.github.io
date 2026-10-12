@@ -1159,10 +1159,17 @@ $size-header-pad: 4em;
 		touch-action: manipulation;
 	}
 
-/* Background touch: drags over the bare background move the mesh (mesh-bg.js), not the page */
+/* Background drags: over the bare background they move the mesh (mesh-bg.js); they neither
+   scroll the page nor select the header / footer text or drag the avatar image along */
 
 	#header, #footer {
+		-webkit-user-select: none;
+		user-select: none;
 		touch-action: none;
+	}
+
+	#header .image.avatar img {
+		-webkit-user-drag: none;
 	}
 
 /* Footer */

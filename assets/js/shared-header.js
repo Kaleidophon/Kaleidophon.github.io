@@ -6,7 +6,7 @@
         '<img src="images/avatar.jpg" alt=""/>' +
         '<img class="coin-back" src="easteregg.jpg" alt="" aria-hidden="true"/>' +
         '</span></a>' +
-        '<p style="color:white">Dennis Ulmer (they / them)<br>' +
+        '<p style="color:var(--sidebar-text, #ffffff)">Dennis Ulmer (they / them)<br>' +
         'Working with <span class="party-emoji">&#x1F916;</span><span class="party-emoji">&#x1F4AD;</span><br>' +
         '</p>';
 
